@@ -35,16 +35,24 @@ module.exports = function(options) {
   gulp.task('inject',['inject-dev'], function () {
 
       var injectStyles = gulp.src(options.paths.css_dist,
-          {read: false});
+          { read: false });
 
       var injectScripts = gulp.src(options.paths.js_dist,
-          {read: false});
+          { read: false });
+
+      var injectScriptsLazy = gulp.src(options.paths.js_dist_lazy,
+          { read: false });
+
+      var injectStylesLazy = gulp.src(options.paths.css_dist_lazy,
+          { read: false });
 
       var injectOptions = {relative: false,ignorePath: ['app','.tmp','serve', 'dist'], addRootSlash: false};
 
       return gulp.src(options.server + '/views/**/*.hbs')
           .pipe($.inject(injectStyles, injectOptions))
           .pipe($.inject(injectScripts, injectOptions))
+          .pipe($.inject(injectScriptsLazy,{name: 'lazy',relative: false,ignorePath: ['app','.tmp','dist'], addRootSlash: false}))
+          .pipe($.inject(injectStylesLazy,{name: 'lazy',relative: false,ignorePath: ['app','.tmp','dist'], addRootSlash: false}))
           .pipe(wiredep(options.wiredep))
           .pipe(gulp.dest(options.dist))
 

@@ -20,48 +20,19 @@ module.exports = function(options) {
   gulp.task('html', ['inject'], function () {
 	  
 	  return gulp.src([
-      	options.src + '/**/*.*',
-      	'!' + options.src + '/js/*.*',
-      	'!' + options.src + '/css/**/*.*'
+      	  options.src + '/**/*.*',
+      	  '!' + options.src + '/js/*.*',
+          '!' + options.src + '/css/**/*.*',
+          '!' + options.src + '/**/*.less'
     	])
         .pipe(gulp.dest(options.dist + '/'));
 	  
   });
-
-
-  // Starts server in development mode (Pass NODE_ENV as 'development' or ''.)
-  gulp.task('start', ['watch'], function(cb) {
-    var started = false;
-    return $.nodemon({
-        script: 'server.js',
-        ext: 'hbs js',
-        env: { 'NODE_ENV': 'development' },
-        watch: [options.server+'/**/*.*','server.js']
-    }).on('start', function () {
-        if (!started) {
-            cb();
-            started = true;
-        }
-    }).on('restart', function onRestart() {
-        // reload connected browsers after a slight delay
-        setTimeout(reload, BROWSER_SYNC_RELOAD_DELAY);
-    });
-  });
-
-    gulp.task('serve',['start'], function(){
-        browserSync.init({
-            proxy: "localhost:8080",
-            port: 8081,
-            files: [options.src+'/**/*.*'],
-            notify: true
-        });
-    });
 
   gulp.task('build', ['html'],function () {
     return gulp.src(options.src + '/css/icons/**/*.*')
     	.pipe(gulp.dest(options.tmp + '/css/icons'))
 		.pipe(gulp.dest(options.dist + '/styles/icons'));
   });
-	
 
 };
