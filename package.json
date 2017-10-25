@@ -6,8 +6,8 @@
   "scripts": {
     "postinstall": "bower prune && bower install && gulp",
     "start": "node server.js",
-    "server:development": "gulp serve", 
-    "server:production": "gulp&& set NODE_ENV=production&& node server.js"
+    "server:development": "gulp&& set NODE_ENV=development&& gulp serve", 
+    "server:production": "gulp dist&& set NODE_ENV=production&& node server.js"
   },
   "dependencies": {
     "body-parser": "^1.13.3",

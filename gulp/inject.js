@@ -7,7 +7,7 @@ var wiredep = require('wiredep').stream;
 
 module.exports = function(options) {
 
-  gulp.task('inject-dev', ['styles', 'scripts'], function () {
+  gulp.task('inject-dev', ['dev-styles', 'dev-scripts'], function () {
     var injectStyles = gulp.src(options.paths.css_dev,
         {read: false});
 
@@ -32,7 +32,7 @@ module.exports = function(options) {
 
   });
 
-  gulp.task('inject',['inject-dev'], function () {
+  gulp.task('inject-prod', ['styles', 'scripts'], function () { // to fix, this skip executing inject dev
 
       var injectStyles = gulp.src(options.paths.css_dist,
           { read: false });
