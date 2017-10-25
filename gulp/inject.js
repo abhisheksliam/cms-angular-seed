@@ -3,18 +3,16 @@
 var gulp = require('gulp');
 
 var $ = require('gulp-load-plugins')();
-
 var wiredep = require('wiredep').stream;
 
 module.exports = function(options) {
 
-    // Development-Mode
-  gulp.task('inject', ['styles', 'scripts'], function () {
+  gulp.task('inject-dev', ['styles', 'scripts'], function () {
     var injectStyles = gulp.src(options.paths.css_dev,
         {read: false});
 
-    var injectScripts = gulp.src(options.paths.js_dev)
-        .pipe($.angularFilesort());
+    var injectScripts = gulp.src(options.paths.js_dev,
+        {read: false});
 
     var injectScriptsLazy =  gulp.src(options.paths.js_dev_lazy,
         {read: false});
@@ -22,30 +20,19 @@ module.exports = function(options) {
     var injectStylesLazy =  gulp.src(options.paths.css_dev_lazy,
         {read: false});
 
-    var injectOptions = {
-      relative: false,
-      ignorePath: ['app','.tmp'],
-      addRootSlash: false
-    };
+    var injectOptions = {relative: false,ignorePath: ['app','.tmp'], addRootSlash: false};
 
-    var injectOptionsLazy = {
-      name: 'lazy',
-      relative: false,
-      ignorePath: ['app','.tmp'],
-      addRootSlash: false
-    };
-
-    return gulp.src(options.server + '/**/*.hbs')
+    return gulp.src(options.server + '/views/**/*.hbs')
       .pipe($.inject(injectStyles, injectOptions))
       .pipe($.inject(injectScripts, injectOptions))
-      .pipe($.inject(injectScriptsLazy, injectOptionsLazy))
-      .pipe($.inject(injectStylesLazy, injectOptionsLazy))
+      .pipe($.inject(injectScriptsLazy,{name: 'lazy',relative: false,ignorePath: ['app','.tmp'], addRootSlash: false}))
+      .pipe($.inject(injectStylesLazy,{name: 'lazy',relative: false,ignorePath: ['app','.tmp'], addRootSlash: false}))
       .pipe(wiredep(options.wiredep))
-      .pipe(gulp.dest(options.tmp));
+      .pipe(gulp.dest(options.tmp + '/views'))
+
   });
 
-    // Production - Mode
-  /*gulp.task('inject',['inject-dev'], function () {
+  gulp.task('inject',['inject-dev'], function () {
 
       var injectStyles = gulp.src(options.paths.css_dist,
           {read: false});
@@ -55,11 +42,11 @@ module.exports = function(options) {
 
       var injectOptions = {relative: false,ignorePath: ['app','.tmp','serve', 'dist'], addRootSlash: false};
 
-      return gulp.src(options.server + '/views/!**!/!*.hbs')
+      return gulp.src(options.server + '/views/**/*.hbs')
           .pipe($.inject(injectStyles, injectOptions))
           .pipe($.inject(injectScripts, injectOptions))
           .pipe(wiredep(options.wiredep))
           .pipe(gulp.dest(options.dist))
 
-  });*/
+  });
 };

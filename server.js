@@ -57,16 +57,16 @@ let viewsPath = path.join(__dirname, '.tmp', 'views');
 
 //Environment setup production / development
 // Override Views location to dist folder
-/*if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
     viewsPath = path.join(__dirname, 'dist');
     app.use(express.static(__dirname + '/dist/'));
     app.set('views', viewsPath);
-} else {*/
+} else {
     // make express look in the public directory for assets (css/js/img)
     app.use(express.static(__dirname + '/.tmp/'));
     app.use(express.static(__dirname + '/app/'));
     app.set('views', viewsPath);
-//}
+}
 
 // 3.Support for  json encoded bodies
 app.use(bodyParser.json());
@@ -74,7 +74,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
 //-----------Express WWW Server-------------------
-let port = process.env.PORT || 3000;
+let port = (process.env.NODE_ENV == 'production') ? 80 : 3000;
 // Serve Bower Components based JS & CSS & Image assets
 app.use("/bower_components", express.static(__dirname + '/bower_components'));
 

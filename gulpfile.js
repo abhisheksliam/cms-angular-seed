@@ -25,31 +25,35 @@ var options = {
             '!./.tmp/serve/**/*.js'
         ],
         css_dev: [
-            './.tmp/css/style.css',
-            './.tmp/css/theme.css',
-            './.tmp/css/ui.css'
+            './.tmp/**/*.css',
+            '!./.tmp/**/angular-theme.css',
+            '!./.tmp/**/layout.css',
+            '!./.tmp/serve/**/*.css',
+            '!./www/css/ionic.app*.css',
+            '!./www/lib/**',
+            '!./.tmp/**/custom.css'
         ],
         css_dev_lazy: [
-            './.tmp/css/angular-theme.css',
-            './.tmp/css/layout.css',
-            './.tmp/css/custom.css'
-        ]/*,
+            './.tmp/**/angular-theme.css',
+            './.tmp/**/layout.css',
+            './.tmp/**/custom.css'
+        ],
         js_dist: [
             './app/index.js',
-            './app/modules/!**!/!*module.js',
-            './app/modules/!**!/!*controller.js',
-            './app/modules/!**!/!*.js',
-            './dist/scripts/!*.js',
+            './app/modules/**/*module.js',
+            './app/modules/**/*controller.js',
+            './app/modules/**/*.js',
+            './dist/scripts/*.js',
             '!./.tmp/js',
             '!./www/js/app.js',
-            '!./www/lib/!**'
+            '!./www/lib/**'
         ],
         css_dist: [
-            './dist/styles/!*.css',
+            './dist/styles/*.css',
             '!./.tmp/css',
             '!./www/css/ionic.app*.css',
-            '!./www/lib/!**'
-        ]*/
+            '!./www/lib/**'
+        ]
     },
     wiredep: {
         directory: 'bower_components',
